@@ -1,0 +1,763 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>实体关系图 - 2.定制化</title>
+	<META name="Description" content="功能描述：
+平台定制化模块，用于将系统需求通过页面操作即可实现较复杂的业务。
+
+
+业务场景：
+基础的业务实体"/>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initGridDiagram();">
+	<div id="vplink" style="position:absolute; z-index:21; visibility:hidden">
+		<table bordercolor="#A9BFD3" cellpadding="0" border="1" cellspacing="0">
+			<tr>
+				<td>
+					<table width="100%" cellpadding="0" border="0" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+Link:							</td>
+							<td style="font-size: 12px;" align="right">
+								<input id="vplink-checkbox" onClick="javascript: vpLinkToggleName()" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="spotlight_top" style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;">
+	</div>
+	<div id="spotlight_bottom" style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;">
+	</div>
+	<div id="spotlight_left" style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;">
+	</div>
+	<div id="spotlight_right" style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;">
+	</div>
+	<canvas id="spotlight_c" height="100" style="position:absolute; z-index:2; visibility:hidden" width="100">
+	</canvas>
+	<div id="spotLightResourcesTop" style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden">
+		<table cellpadding="0" border="0" cellspacing="0">
+			<tr>
+				<td>
+					<a href="#top">
+						<img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>
+				</td>
+				<td>
+					<a href="javascript:clearSpotLightFromOpenSpecButton();">
+						<img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="spotLightResourcesRight" style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden">
+		<table cellpadding="0" border="0" cellspacing="0">
+			<tr>
+				<td>
+					<a href="#top">
+						<img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="javascript:clearSpotLightFromOpenSpecButton();">
+						<img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="linkPopupMenuLayer" style="position:absolute;z-index:4;visibility:hidden">
+		<table id="linkPopupMenuTable" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" width="100%" border="0">
+		</table>
+	</div>
+	<div id="referenceIconLayer" style="position:absolute; z-index:1; visibility:hidden; ">
+		<table style="font-size:1;" cellpadding="3" border="0" cellspacing="0">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="subdiagramIconLayer" style="position:absolute; z-index:1; visibility:hidden; ">
+		<table style="font-size:1;" cellpadding="3" border="0" cellspacing="0">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="transitorIconLayer" style="position:absolute; z-index:1; visibility:hidden; ">
+		<table style="font-size:1;" cellpadding="3" border="0" cellspacing="0">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="documentationIconLayer" style="position:absolute; z-index:1; visibility:hidden; ">
+		<table style="font-size:1;" cellpadding="3" border="0" cellspacing="0">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		XiaSmart 文档	</div>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div id="vplink" style="position:absolute; z-index:21; visibility:hidden">
+		<table bordercolor="#A9BFD3" cellpadding="0" border="1" cellspacing="0">
+			<tr>
+				<td>
+					<table width="100%" cellpadding="0" border="0" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+Link:							</td>
+							<td style="font-size: 12px;" align="right">
+								<input id="vplink-checkbox" onClick="javascript: vpLinkToggleName()" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p class="PageTitle">
+		实体关系图 - 2.定制化		<a style="padding-left: 16px; font-size: 12px" onclick="javascript: showVpLink('ShaneCRM.vpp://diagram/SUGWpSqGAqACBAT1', '2.&#x5b9a;&#x5236;&#x5316;\nShaneCRM.vpp://diagram/SUGWpSqGAqACBAT1', this); return false;" href="#">
+			<img src="../images/icons/link.png" border="0"> link</a>
+	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table style="position: absolute; top: 0; left: 0; z-index: 20;" width="100%" cellpadding="0" border="0" cellspacing="0">
+			<tr>
+				<td>
+<span class="TableContent">跳至︰</span>					<select id="SelectShape" class="TableContent" onChange="scrollWin(this.value);hideLinkPopup();showSpotLight(this.value)">
+<option value="">Please select a model element</option>
+<option value="shape|2.0|172.0|70.0|40.0|DBTable_KtP0fiqD_AAAAQUT.html|DBTable_KtP0fiqD_AAAAQUT.html|tZLWpSqGAqACBAVa" id="optiontZLWpSqGAqACBAVa">对象 AppObject : Entity</option>
+<option value="shape|402.0|162.0|70.0|40.0|DBTable_qNf0fiqD_AAAAQUb.html|DBTable_qNf0fiqD_AAAAQUb.html|M5LWpSqGAqACBAVd" id="optionM5LWpSqGAqACBAVd">字段 AppField : Entity</option>
+<option value="shape|12.0|2.0|200.0|180.0|DBTable_F96MfiqD_AAAAQVS.html|DBTable_F96MfiqD_AAAAQVS.html|35LWpSqGAqACBAVg" id="option35LWpSqGAqACBAVg">应用程序 Application : Entity</option>
+<option value="shape|692.0|222.0|70.0|40.0|DBTable_tWqcfiqD_AAAAQXY.html|DBTable_tWqcfiqD_AAAAQXY.html|VFLWpSqGAqACBAVj" id="optionVFLWpSqGAqACBAVj">选项卡 AppTabs : Entity</option>
+<option value="shape|2.0|282.0|130.0|40.0|DBTable_AM48fiqD_AAAAQYE.html|DBTable_AM48fiqD_AAAAQYE.html|klLWpSqGAqACBAVm" id="optionklLWpSqGAqACBAVm">对象关系 AppObjectRelationship : Entity</option>
+</select>				</td>
+			</tr>
+		</table>
+		<table style="position: relative; top: 24;" width="100%" cellpadding="0" border="0" cellspacing="0">
+			<tr>
+				<td>
+					<img id="diagram" src="../images/2.png" usemap="#diagram_map" class="Image" width="766" height="326"/>
+					<map name="diagram_map">
+<area coords="2, 282, 132, 322" coords2="2, 282, 132, 322" shape="rect" alt="对象关系 AppObjectRelationship:Entity" id="areadiagram_map_klLWpSqGAqACBAVm" href="DBTable_AM48fiqD_AAAAQYE.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area coords="692, 222, 762, 262" coords2="692, 222, 762, 262" shape="rect" alt="选项卡 AppTabs:Entity" id="areadiagram_map_VFLWpSqGAqACBAVj" href="DBTable_tWqcfiqD_AAAAQXY.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area coords="12, 2, 212, 182" coords2="12, 2, 212, 182" shape="rect" alt="应用程序 Application:Entity" id="areadiagram_map_35LWpSqGAqACBAVg" href="DBTable_F96MfiqD_AAAAQVS.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area coords="402, 162, 472, 202" coords2="402, 162, 472, 202" shape="rect" alt="字段 AppField:Entity" id="areadiagram_map_M5LWpSqGAqACBAVd" href="DBTable_qNf0fiqD_AAAAQUb.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area coords="2, 172, 72, 212" coords2="2, 172, 72, 212" shape="rect" alt="对象 AppObject:Entity" id="areadiagram_map_tZLWpSqGAqACBAVa" href="DBTable_KtP0fiqD_AAAAQUT.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+		<p>
+		</p>
+	</div>
+	<p>
+		<table width="100%" cellpadding="0" border="0" cellspacing="0">
+			<tr>
+				<td>
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body>
+    <p>
+      <font color="#000000" face="Courier New" size="11px" style="font-size:11px;"><b>&#21151;&#33021;&#25551;&#36848;&#65306;</b>
+</font>    </p>
+    <p>
+      <font color="#000000" face="Courier New" size="11px" style="font-size:11px;">&#24179;&#21488;&#23450;&#21046;&#21270;&#27169;&#22359;&#65292;&#29992;&#20110;&#23558;&#31995;&#32479;&#38656;&#27714;&#36890;&#36807;&#39029;&#38754;&#25805;&#20316;&#21363;&#21487;&#23454;&#29616;&#36739;&#22797;&#26434;&#30340;&#19994;&#21153;&#12290;
+</font>    </p>
+    <p>
+      <font color="#000000" face="Courier New" size="11px" style="font-size:11px;">
+</font>    </p>
+    <p>
+      <font color="#000000" face="Courier New" size="11px" style="font-size:11px;">
+</font>    </p>
+    <p>
+      <font color="#000000" face="Courier New" size="11px" style="font-size:11px;"><b>&#19994;&#21153;&#22330;&#26223;&#65306;</b>
+</font>    </p>
+    <p>
+      <font color="#000000" face="Courier New" size="11px" style="font-size:11px;">&#22522;&#30784;&#30340;&#19994;&#21153;&#23454;&#20307;</font>
+    </p>
+  </body></span>				</td>
+			</tr>
+		</table>
+	</p>
+	<p>
+	</p>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="Category">
+Database Tables			</td>
+		</tr>
+		<tr>
+			<td class="TableCellSpaceHolder5PxTall">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="25%">
+<span class="TableHeaderText">名称</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">文档</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Entity.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Entity.png');">
+					</div>
+&nbsp;<a target="_content_pane" class="ItemLink" href="DBTable_KtP0fiqD_AAAAQUT.html">对象 AppObject : 实体</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Entity.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Entity.png');">
+					</div>
+&nbsp;<a target="_content_pane" class="ItemLink" href="DBTable_qNf0fiqD_AAAAQUb.html">字段 AppField : 实体</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Entity.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Entity.png');">
+					</div>
+&nbsp;<a target="_content_pane" class="ItemLink" href="DBTable_F96MfiqD_AAAAQVS.html">应用程序 Application : 实体</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Entity.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Entity.png');">
+					</div>
+&nbsp;<a target="_content_pane" class="ItemLink" href="DBTable_tWqcfiqD_AAAAQXY.html">选项卡 AppTabs : 实体</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Entity.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Entity.png');">
+					</div>
+&nbsp;<a target="_content_pane" class="ItemLink" href="DBTable_AM48fiqD_AAAAQYE.html">对象关系 AppObjectRelationship : 实体</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent"></span>			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<p>
+	</p>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="Category">
+对象 AppObject Table			</td>
+		</tr>
+		<tr>
+			<td class="TableCellSpaceHolder5PxTall">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td colSpan="10" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="15%">
+<span class="TableHeaderText">栏名称</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="10%">
+<span class="TableHeaderText">资料型别</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="7%">
+<span class="TableHeaderText">PK / FK</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="5%">
+<span class="TableHeaderText">泛型</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="*">
+<span class="TableHeaderText">文档</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine2">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<p>
+	</p>
+	<p>
+	</p>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="Category">
+字段 AppField Table			</td>
+		</tr>
+		<tr>
+			<td class="TableCellSpaceHolder5PxTall">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td colSpan="10" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="15%">
+<span class="TableHeaderText">栏名称</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="10%">
+<span class="TableHeaderText">资料型别</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="7%">
+<span class="TableHeaderText">PK / FK</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="5%">
+<span class="TableHeaderText">泛型</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="*">
+<span class="TableHeaderText">文档</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine2">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<p>
+	</p>
+	<p>
+	</p>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="Category">
+应用程序 Application Table			</td>
+		</tr>
+		<tr>
+			<td class="TableCellSpaceHolder5PxTall">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td colSpan="10" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="15%">
+<span class="TableHeaderText">栏名称</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="10%">
+<span class="TableHeaderText">资料型别</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="7%">
+<span class="TableHeaderText">PK / FK</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="5%">
+<span class="TableHeaderText">泛型</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="*">
+<span class="TableHeaderText">文档</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_F96MfiqD_AAAAQVS.html#fLp2pSqGAqACBAZb">
+					ID</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_F96MfiqD_AAAAQVS.html#1kJ2pSqGAqACBAZU">
+					Name</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_F96MfiqD_AAAAQVS.html#HYF2pSqGAqACBAZl">
+					Description</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_F96MfiqD_AAAAQVS.html#zuV2pSqGAqACBAZq">
+					IsStandard</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_F96MfiqD_AAAAQVS.html#0bj2pSqGAqACBAZ0">
+					IsDeployed</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<p>
+	</p>
+	<p>
+	</p>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="Category">
+选项卡 AppTabs Table			</td>
+		</tr>
+		<tr>
+			<td class="TableCellSpaceHolder5PxTall">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td colSpan="10" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="15%">
+<span class="TableHeaderText">栏名称</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="10%">
+<span class="TableHeaderText">资料型别</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="7%">
+<span class="TableHeaderText">PK / FK</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="5%">
+<span class="TableHeaderText">泛型</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="*">
+<span class="TableHeaderText">文档</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine2">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<p>
+	</p>
+	<p>
+	</p>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="Category">
+对象关系 AppObjectRelationship Table			</td>
+		</tr>
+		<tr>
+			<td class="TableCellSpaceHolder5PxTall">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td colSpan="10" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="15%">
+<span class="TableHeaderText">栏名称</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="10%">
+<span class="TableHeaderText">资料型别</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="7%">
+<span class="TableHeaderText">PK / FK</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="5%">
+<span class="TableHeaderText">泛型</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="*">
+<span class="TableHeaderText">文档</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine2">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<p>
+	</p>
+	<div style="height: 20px">
+	</div>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		XiaSmart 文档	</div>
+</body>
+</html>

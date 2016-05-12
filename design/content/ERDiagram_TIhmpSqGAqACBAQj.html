@@ -1,0 +1,1546 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>实体关系图 - 1.基础模块</title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initGridDiagram();">
+	<div id="vplink" style="position:absolute; z-index:21; visibility:hidden">
+		<table bordercolor="#A9BFD3" cellpadding="0" border="1" cellspacing="0">
+			<tr>
+				<td>
+					<table width="100%" cellpadding="0" border="0" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+Link:							</td>
+							<td style="font-size: 12px;" align="right">
+								<input id="vplink-checkbox" onClick="javascript: vpLinkToggleName()" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="spotlight_top" style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;">
+	</div>
+	<div id="spotlight_bottom" style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;">
+	</div>
+	<div id="spotlight_left" style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;">
+	</div>
+	<div id="spotlight_right" style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;">
+	</div>
+	<canvas id="spotlight_c" height="100" style="position:absolute; z-index:2; visibility:hidden" width="100">
+	</canvas>
+	<div id="spotLightResourcesTop" style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden">
+		<table cellpadding="0" border="0" cellspacing="0">
+			<tr>
+				<td>
+					<a href="#top">
+						<img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>
+				</td>
+				<td>
+					<a href="javascript:clearSpotLightFromOpenSpecButton();">
+						<img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="spotLightResourcesRight" style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden">
+		<table cellpadding="0" border="0" cellspacing="0">
+			<tr>
+				<td>
+					<a href="#top">
+						<img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="javascript:clearSpotLightFromOpenSpecButton();">
+						<img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="linkPopupMenuLayer" style="position:absolute;z-index:4;visibility:hidden">
+		<table id="linkPopupMenuTable" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" width="100%" border="0">
+		</table>
+	</div>
+	<div id="referenceIconLayer" style="position:absolute; z-index:1; visibility:hidden; ">
+		<table style="font-size:1;" cellpadding="3" border="0" cellspacing="0">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="subdiagramIconLayer" style="position:absolute; z-index:1; visibility:hidden; ">
+		<table style="font-size:1;" cellpadding="3" border="0" cellspacing="0">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="transitorIconLayer" style="position:absolute; z-index:1; visibility:hidden; ">
+		<table style="font-size:1;" cellpadding="3" border="0" cellspacing="0">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="documentationIconLayer" style="position:absolute; z-index:1; visibility:hidden; ">
+		<table style="font-size:1;" cellpadding="3" border="0" cellspacing="0">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		XiaSmart 文档	</div>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div id="vplink" style="position:absolute; z-index:21; visibility:hidden">
+		<table bordercolor="#A9BFD3" cellpadding="0" border="1" cellspacing="0">
+			<tr>
+				<td>
+					<table width="100%" cellpadding="0" border="0" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+Link:							</td>
+							<td style="font-size: 12px;" align="right">
+								<input id="vplink-checkbox" onClick="javascript: vpLinkToggleName()" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p class="PageTitle">
+		实体关系图 - 1.基础模块		<a style="padding-left: 16px; font-size: 12px" onclick="javascript: showVpLink('ShaneCRM.vpp://diagram/TIhmpSqGAqACBAQj', '1.&#x57fa;&#x7840;&#x6a21;&#x5757;\nShaneCRM.vpp://diagram/TIhmpSqGAqACBAQj', this); return false;" href="#">
+			<img src="../images/icons/link.png" border="0"> link</a>
+	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table style="position: absolute; top: 0; left: 0; z-index: 20;" width="100%" cellpadding="0" border="0" cellspacing="0">
+			<tr>
+				<td>
+<span class="TableContent">跳至︰</span>					<select id="SelectShape" class="TableContent" onChange="scrollWin(this.value);hideLinkPopup();showSpotLight(this.value)">
+<option value="">Please select a model element</option>
+<option value="shape|52.0|42.0|270.0|280.0|DBTable_FRK0fiqD_AAAAQTL.html|DBTable_FRK0fiqD_AAAAQTL.html|aWv.pSqGAqACBAeZ" id="optionaWv.pSqGAqACBAeZ">User : Entity</option>
+<option value="shape|562.0|42.0|260.0|180.0|DBTable_T4_0fiqD_AAAAQTt.html|DBTable_T4_0fiqD_AAAAQTt.html|pWv.pSqGAqACBAec" id="optionpWv.pSqGAqACBAec">UserRole : Entity</option>
+<option value="shape|562.0|452.0|270.0|130.0|DBTable_LXiMfiqD_AAAAQVI.html|DBTable_LXiMfiqD_AAAAQVI.html|K2v.pSqGAqACBAef" id="optionK2v.pSqGAqACBAef">SysMenu : Entity</option>
+<option value="shape|52.0|502.0|260.0|120.0|DBTable_FApKfiqD_AAAAQap.html|DBTable_FApKfiqD_AAAAQap.html|wOv.pSqGAqACBAei" id="optionwOv.pSqGAqACBAei"> UserLicense : Entity</option>
+<option value="shape|52.0|352.0|260.0|120.0|DBTable_9tPKfiqD_AAAAQaz.html|DBTable_9tPKfiqD_AAAAQaz.html|ROv.pSqGAqACBAel" id="optionROv.pSqGAqACBAel">UserProfile : Entity</option>
+<option value="shape|562.0|252.0|270.0|140.0|DBTable_d8WepSqGAqACBAdi.html|DBTable_d8WepSqGAqACBAdi.html|huv.pSqGAqACBAeo" id="optionhuv.pSqGAqACBAeo">CusomeLabel : Entity</option>
+</select>				</td>
+			</tr>
+		</table>
+		<table style="position: relative; top: 24;" width="100%" cellpadding="0" border="0" cellspacing="0">
+			<tr>
+				<td>
+					<img id="diagram" src="../images/1.png" usemap="#diagram_map" class="Image" width="876" height="626"/>
+					<map name="diagram_map">
+<area coords="689.0, 401.0, 689.0, 404.0, 686.0, 404.0, 686.0, 418.0, 689.0, 418.0, 689.0, 452.0, 703.0, 452.0, 703.0, 418.0, 864.0, 418.0, 864.0, 504.0, 832.0, 504.0, 832.0, 518.0, 864.0, 518.0, 864.0, 521.0, 878.0, 521.0, 878.0, 518.0, 881.0, 518.0, 881.0, 504.0, 878.0, 504.0, 878.0, 418.0, 881.0, 418.0, 881.0, 404.0, 878.0, 404.0, 878.0, 401.0, 864.0, 401.0, 864.0, 404.0, 703.0, 404.0, 703.0, 401.0" coords2="689.0, 401.0, 689.0, 404.0, 686.0, 404.0, 686.0, 418.0, 689.0, 418.0, 689.0, 452.0, 703.0, 452.0, 703.0, 418.0, 864.0, 418.0, 864.0, 504.0, 832.0, 504.0, 832.0, 518.0, 864.0, 518.0, 864.0, 521.0, 878.0, 521.0, 878.0, 518.0, 881.0, 518.0, 881.0, 504.0, 878.0, 504.0, 878.0, 418.0, 881.0, 418.0, 881.0, 404.0, 878.0, 404.0, 878.0, 401.0, 864.0, 401.0, 864.0, 404.0, 703.0, 404.0, 703.0, 401.0" shape="poly" alt=":Relationship" id="areadiagram_map_MLY4ZSqGAqACBApK" href="DBForeignKey_MLY4ZSqGAqACBApJ.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area coords="145.0, 322.0, 145.0, 352.0, 159.0, 352.0, 159.0, 322.0" coords2="145.0, 322.0, 145.0, 352.0, 159.0, 352.0, 159.0, 322.0" shape="poly" alt=":Relationship" id="areadiagram_map_tcOYZSqGAqACBAn6" href="DBForeignKey_tcOYZSqGAqACBAn5.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area coords="-5.0, 410.0, -5.3846154, 411.0, -6.0, 411.0, -6.0, 412.6, -6.0, 412.6, -10.0, 423.0, -6.0, 424.94595, -6.0, 424.94595, -6.0, 524.0, -9.0, 524.0, -9.0, 538.0, -6.0, 538.0, -6.0, 541.0, 8.0, 541.0, 8.0, 538.0, 52.0, 538.0, 52.0, 524.0, 8.0, 524.0, 8.0, 431.75674, 8.0, 431.75674, 11.0, 433.21622, 11.0, 433.21622, 11.0, 438.0, 20.833334, 438.0, 27.0, 441.0, 28.153847, 438.0, 52.0, 438.0, 52.0, 424.0, 23.777779, 424.0, 8.0, 416.3243, 8.0, 416.3243, 8.0, 411.0, -2.9444444, 411.0, -5.0, 410.0" coords2="-5.0, 410.0, -5.3846154, 411.0, -6.0, 411.0, -6.0, 412.6, -6.0, 412.6, -10.0, 423.0, -6.0, 424.94595, -6.0, 424.94595, -6.0, 524.0, -9.0, 524.0, -9.0, 538.0, -6.0, 538.0, -6.0, 541.0, 8.0, 541.0, 8.0, 538.0, 52.0, 538.0, 52.0, 524.0, 8.0, 524.0, 8.0, 431.75674, 8.0, 431.75674, 11.0, 433.21622, 11.0, 433.21622, 11.0, 438.0, 20.833334, 438.0, 27.0, 441.0, 28.153847, 438.0, 52.0, 438.0, 52.0, 424.0, 23.777779, 424.0, 8.0, 416.3243, 8.0, 416.3243, 8.0, 411.0, -2.9444444, 411.0, -5.0, 410.0" shape="poly" alt=":Relationship" id="areadiagram_map_AAqYZSqGAqACBAnd" href="DBForeignKey_D_KYZSqGAqACBAnc.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area coords="322.0, 185.0, 322.0, 199.0, 562.0, 199.0, 562.0, 185.0" coords2="322.0, 185.0, 322.0, 199.0, 562.0, 199.0, 562.0, 185.0" shape="poly" alt=":Relationship" id="areadiagram_map_fIBAZSqGAqACBAjQ" href="DBForeignKey_XIBAZSqGAqACBAjP.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area coords="685.0, -9.0, 685.0, -6.0, 682.0, -6.0, 682.0, 8.0, 685.0, 8.0, 685.0, 42.0, 699.0, 42.0, 699.0, 8.0, 855.0, 8.0, 855.0, 124.0, 822.0, 124.0, 822.0, 138.0, 855.0, 138.0, 855.0, 141.0, 869.0, 141.0, 869.0, 138.0, 872.0, 138.0, 872.0, 124.0, 869.0, 124.0, 869.0, 8.0, 872.0, 8.0, 872.0, -6.0, 869.0, -6.0, 869.0, -9.0, 855.0, -9.0, 855.0, -6.0, 699.0, -6.0, 699.0, -9.0" coords2="685.0, -9.0, 685.0, -6.0, 682.0, -6.0, 682.0, 8.0, 685.0, 8.0, 685.0, 42.0, 699.0, 42.0, 699.0, 8.0, 855.0, 8.0, 855.0, 124.0, 822.0, 124.0, 822.0, 138.0, 855.0, 138.0, 855.0, 141.0, 869.0, 141.0, 869.0, 138.0, 872.0, 138.0, 872.0, 124.0, 869.0, 124.0, 869.0, 8.0, 872.0, 8.0, 872.0, -6.0, 869.0, -6.0, 869.0, -9.0, 855.0, -9.0, 855.0, -6.0, 699.0, -6.0, 699.0, -9.0" shape="poly" alt=":Relationship" id="areadiagram_map_MYnRpSqGAqACBAh7" href="DBForeignKey_vonRpSqGAqACBAh6.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;p&amp;gt;
+      &amp;lt;font color=&amp;quot;#000000&amp;quot; face=&amp;quot;Courier New&amp;quot; size=&amp;quot;11px&amp;quot; style=&amp;quot;font-size:11px;&amp;quot;&amp;gt;&amp;#33258;&amp;#23450;&amp;#20041;&amp;#26631;&amp;#31614;,&amp;#29992;&amp;#20110;&amp;#23384;&amp;#20648;&amp;#25968;&amp;#25454;&amp;#23383;&amp;#20856;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="562, 252, 832, 392" coords2="562, 252, 832, 392" shape="rect" alt="CusomeLabel:Entity" id="areadiagram_map_huv.pSqGAqACBAeo" href="DBTable_d8WepSqGAqACBAdi.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;p&amp;gt;
+      &amp;lt;font color=&amp;quot;#000000&amp;quot; face=&amp;quot;Courier New&amp;quot; size=&amp;quot;11px&amp;quot; style=&amp;quot;font-size:11px;&amp;quot;&amp;gt;&amp;#31616;&amp;#26723;&amp;#65292;&amp;#29992;&amp;#20110;&amp;#25551;&amp;#36848;&amp;#29992;&amp;#25143;&amp;#30340;&amp;#26435;&amp;#38480;/&amp;#19994;&amp;#21153;&amp;#20998;&amp;#31867;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="52, 352, 312, 472" coords2="52, 352, 312, 472" shape="rect" alt="UserProfile:Entity" id="areadiagram_map_ROv.pSqGAqACBAel" href="DBTable_9tPKfiqD_AAAAQaz.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;p&amp;gt;
+      &amp;lt;font color=&amp;quot;#000000&amp;quot; face=&amp;quot;Courier New&amp;quot; size=&amp;quot;11px&amp;quot; style=&amp;quot;font-size:11px;&amp;quot;&amp;gt;&amp;#29992;&amp;#25143;&amp;#35768;&amp;#21487;&amp;#35777;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="52, 502, 312, 622" coords2="52, 502, 312, 622" shape="rect" alt=" UserLicense:Entity" id="areadiagram_map_wOv.pSqGAqACBAei" href="DBTable_FApKfiqD_AAAAQap.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;p&amp;gt;
+      &amp;lt;font color=&amp;quot;#000000&amp;quot; face=&amp;quot;Courier New&amp;quot; size=&amp;quot;11px&amp;quot; style=&amp;quot;font-size:11px;&amp;quot;&amp;gt;&amp;#31995;&amp;#32479;&amp;#33756;&amp;#21333;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="562, 452, 832, 582" coords2="562, 452, 832, 582" shape="rect" alt="SysMenu:Entity" id="areadiagram_map_K2v.pSqGAqACBAef" href="DBTable_LXiMfiqD_AAAAQVI.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;p&amp;gt;
+      &amp;lt;font color=&amp;quot;#000000&amp;quot; face=&amp;quot;Courier New&amp;quot; size=&amp;quot;11px&amp;quot; style=&amp;quot;font-size:11px;&amp;quot;&amp;gt;&amp;#35282;&amp;#33394;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="562, 42, 822, 222" coords2="562, 42, 822, 222" shape="rect" alt="UserRole:Entity" id="areadiagram_map_pWv.pSqGAqACBAec" href="DBTable_T4_0fiqD_AAAAQTt.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;p&amp;gt;
+      &amp;lt;font color=&amp;quot;#000000&amp;quot; face=&amp;quot;Courier New&amp;quot; size=&amp;quot;11px&amp;quot; style=&amp;quot;font-size:11px;&amp;quot;&amp;gt;&amp;#29992;&amp;#25143;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="52, 42, 322, 322" coords2="52, 42, 322, 322" shape="rect" alt="User:Entity" id="areadiagram_map_aWv.pSqGAqACBAeZ" href="DBTable_FRK0fiqD_AAAAQTL.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+</map>
+				</td>
+			</tr>
+		</table>
+		<p>
+		</p>
+	</div>
+	<p>
+	</p>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="Category">
+Database Tables			</td>
+		</tr>
+		<tr>
+			<td class="TableCellSpaceHolder5PxTall">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="25%">
+<span class="TableHeaderText">名称</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">文档</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Entity.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Entity.png');">
+					</div>
+&nbsp;<a target="_content_pane" class="ItemLink" href="DBTable_FRK0fiqD_AAAAQTL.html">User : 实体</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">用户</span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Entity.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Entity.png');">
+					</div>
+&nbsp;<a target="_content_pane" class="ItemLink" href="DBTable_T4_0fiqD_AAAAQTt.html">UserRole : 实体</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">角色</span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Entity.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Entity.png');">
+					</div>
+&nbsp;<a target="_content_pane" class="ItemLink" href="DBTable_LXiMfiqD_AAAAQVI.html">SysMenu : 实体</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">系统菜单</span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Entity.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Entity.png');">
+					</div>
+&nbsp;<a target="_content_pane" class="ItemLink" href="DBTable_FApKfiqD_AAAAQap.html"> UserLicense : 实体</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">用户许可证</span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Entity.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Entity.png');">
+					</div>
+&nbsp;<a target="_content_pane" class="ItemLink" href="DBTable_9tPKfiqD_AAAAQaz.html">UserProfile : 实体</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">简档，用于描述用户的权限/业务分类</span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Entity.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Entity.png');">
+					</div>
+&nbsp;<a target="_content_pane" class="ItemLink" href="DBTable_d8WepSqGAqACBAdi.html">CusomeLabel : 实体</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">自定义标签,用于存储数据字典</span>			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<p>
+	</p>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="Category">
+User Table			</td>
+		</tr>
+		<tr>
+			<td class="TableCellSpaceHolder5PxTall">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td colSpan="10" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="15%">
+<span class="TableHeaderText">栏名称</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="10%">
+<span class="TableHeaderText">资料型别</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="7%">
+<span class="TableHeaderText">PK / FK</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="5%">
+<span class="TableHeaderText">泛型</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="*">
+<span class="TableHeaderText">文档</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_FRK0fiqD_AAAAQTL.html#mjABpSqGAqACBAew">
+					Id</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+PK			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_FRK0fiqD_AAAAQTL.html#fGQBpSqGAqACBAez">
+					FirstName</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+名称			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_FRK0fiqD_AAAAQTL.html#y8oBpSqGAqACBAe.">
+					LastName</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+姓氏			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_FRK0fiqD_AAAAQTL.html#uWYBpSqGAqACBAfA">
+					UserName</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_FRK0fiqD_AAAAQTL.html#ldMBpSqGAqACBAfC">
+					Email</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_FRK0fiqD_AAAAQTL.html#D7sBpSqGAqACBAfF">
+					Password</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_FRK0fiqD_AAAAQTL.html#pyCBpSqGAqACBAfP">
+					WorkPhone</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+工作号码			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_FRK0fiqD_AAAAQTL.html#CnSBpSqGAqACBAfV">
+					HomePhone</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+家庭号码			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_FRK0fiqD_AAAAQTL.html#CJKBpSqGAqACBAfY">
+					Company</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_FRK0fiqD_AAAAQTL.html#t4_BpSqGAqACBAgF">
+					Title</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_FRK0fiqD_AAAAQTL.html#37EhpSqGAqACBAgZ">
+					Active</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_FRK0fiqD_AAAAQTL.html#YKmRpSqGAqACBAgj">
+					Employee ID</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_FRK0fiqD_AAAAQTL.html#fIBAZSqGAqACBAjS">
+					UserRoleId</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+FK			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_FRK0fiqD_AAAAQTL.html#tcOYZSqGAqACBAn8">
+					UserProfileId</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+FK			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<p>
+	</p>
+	<p>
+	</p>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="Category">
+UserRole Table			</td>
+		</tr>
+		<tr>
+			<td class="TableCellSpaceHolder5PxTall">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td colSpan="10" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="15%">
+<span class="TableHeaderText">栏名称</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="10%">
+<span class="TableHeaderText">资料型别</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="7%">
+<span class="TableHeaderText">PK / FK</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="5%">
+<span class="TableHeaderText">泛型</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="*">
+<span class="TableHeaderText">文档</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_T4_0fiqD_AAAAQTt.html#WyBRpSqGAqACBAg4">
+					Id</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+PK			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_T4_0fiqD_AAAAQTt.html#NEhRpSqGAqACBAg6">
+					Name</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_T4_0fiqD_AAAAQTt.html#kPnRpSqGAqACBAh.">
+					ParentRoleId</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+FK			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<p>
+	</p>
+	<p>
+	</p>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="Category">
+SysMenu Table			</td>
+		</tr>
+		<tr>
+			<td class="TableCellSpaceHolder5PxTall">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td colSpan="10" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="15%">
+<span class="TableHeaderText">栏名称</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="10%">
+<span class="TableHeaderText">资料型别</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="7%">
+<span class="TableHeaderText">PK / FK</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="5%">
+<span class="TableHeaderText">泛型</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="*">
+<span class="TableHeaderText">文档</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_LXiMfiqD_AAAAQVI.html#2.XYZSqGAqACBAop">
+					Id</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+PK			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_LXiMfiqD_AAAAQVI.html#FC3YZSqGAqACBAor">
+					Name</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_LXiMfiqD_AAAAQVI.html#.qC4ZSqGAqACBApi">
+					Sequence</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">int(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_LXiMfiqD_AAAAQVI.html#ncPYZSqGAqACBAot">
+					Description</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(2550)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_LXiMfiqD_AAAAQVI.html#rEU4ZSqGAqACBApO">
+					ParentMenuId</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+FK			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<p>
+	</p>
+	<p>
+	</p>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="Category">
+ UserLicense Table			</td>
+		</tr>
+		<tr>
+			<td class="TableCellSpaceHolder5PxTall">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td colSpan="10" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="15%">
+<span class="TableHeaderText">栏名称</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="10%">
+<span class="TableHeaderText">资料型别</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="7%">
+<span class="TableHeaderText">PK / FK</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="5%">
+<span class="TableHeaderText">泛型</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="*">
+<span class="TableHeaderText">文档</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_FApKfiqD_AAAAQap.html#1iIoZSqGAqACBAlB">
+					Id</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+PK			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_FApKfiqD_AAAAQap.html#.zEoZSqGAqACBAlU">
+					Name</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_FApKfiqD_AAAAQap.html#JekoZSqGAqACBAlW">
+					Description</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(2550)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<p>
+	</p>
+	<p>
+	</p>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="Category">
+UserProfile Table			</td>
+		</tr>
+		<tr>
+			<td class="TableCellSpaceHolder5PxTall">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td colSpan="10" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="15%">
+<span class="TableHeaderText">栏名称</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="10%">
+<span class="TableHeaderText">资料型别</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="7%">
+<span class="TableHeaderText">PK / FK</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="5%">
+<span class="TableHeaderText">泛型</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="*">
+<span class="TableHeaderText">文档</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_9tPKfiqD_AAAAQaz.html#XpBIZSqGAqACBAjl">
+					Id</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+PK			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_9tPKfiqD_AAAAQaz.html#dOxIZSqGAqACBAjs">
+					Name</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_9tPKfiqD_AAAAQaz.html#PXWEZSqGAqACBAqG">
+					Description</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(2550)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_9tPKfiqD_AAAAQaz.html#AAqYZSqGAqACBAnf">
+					 UserLicenseId</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+FK			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<p>
+	</p>
+	<p>
+	</p>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="Category">
+CusomeLabel Table			</td>
+		</tr>
+		<tr>
+			<td class="TableCellSpaceHolder5PxTall">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td colSpan="10" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="15%">
+<span class="TableHeaderText">栏名称</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="10%">
+<span class="TableHeaderText">资料型别</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="7%">
+<span class="TableHeaderText">PK / FK</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="5%">
+<span class="TableHeaderText">泛型</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="*">
+<span class="TableHeaderText">文档</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="10" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_d8WepSqGAqACBAdi.html#EAdIZSqGAqACBAj9">
+					Id</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+PK			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+否			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_d8WepSqGAqACBAdi.html#M5dIZSqGAqACBAj_">
+					Name</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_d8WepSqGAqACBAdi.html#RN9IZSqGAqACBAkB">
+					Value</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_d8WepSqGAqACBAdi.html#d6NoZSqGAqACBAmt">
+					Category</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(255)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<a target="_content_pane" class="ItemLink" href="DBTable_d8WepSqGAqACBAdi.html#F8jIZSqGAqACBAkJ">
+					Description</a>
+			</td>
+			<td>
+			</td>
+			<td>
+<span class="TableContent">varchar(2550)</span>			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+是			</td>
+			<td>
+			</td>
+			<td class="TableContent">
+			</td>
+		</tr>
+	</table>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<p>
+	</p>
+	<div style="height: 20px">
+	</div>
+	<table width="100%" cellpadding="0" border="0" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		XiaSmart 文档	</div>
+</body>
+</html>
